@@ -196,8 +196,11 @@ code --install-extension offline-package\vscode-extensions\Vue.volar-x.x.x.vsix
 □ VSCode: Ctrl+Shift+P → Tasks: Run Task → emulator:start でエミュレータが起動する
 □ VSCode: Tasks: Run Task → android:build:debug で APK がビルドできる
 □ VSCode: Tasks: Run Task → android:livereload でエミュレータに APK がデプロイされる
+□ livereload で WebView が Vite dev server に接続し、画面が表示される（Vite 8 動作確認）
 □ 実機（Xnavis）で livereload を使う場合: Windows Defender でポート 5173 の受信を許可する
 ```
+
+> **Vite 8 の livereload 動作は要確認。** ビルド（`android:build:debug`）は問題なし。`android:livereload` が失敗する場合はトラブルシューティングを参照。
 
 ---
 
@@ -245,3 +248,21 @@ code --install-extension offline-package\vscode-extensions\Vue.volar-x.x.x.vsix
 確認: echo $env:PATH に %ANDROID_HOME%\platform-tools が含まれること
 対処: 環境変数 PATH を再確認・再設定する
 ```
+
+### android:livereload が失敗する（WebView が繋がらない）
+
+```
+原因: Vite 8 と Capacitor 7 CLI の相性問題の可能性
+確認: npx cap run android --livereload --external を直接実行してエラー内容を確認する
+```
+
+Vite 8 で失敗する場合は Vite 6 へのダウングレードで解決できる可能性がある。
+オンライン環境で以下を実行してから node_modules を再パッケージ化する:
+
+```powershell
+cd C:\dev\vue-vuetify3-orval-material
+npm install vite@6 @vitejs/plugin-vue@5
+npm run build   # ビルドが通ることを確認
+```
+
+その後 offline-package の project/ を再コピーする。
