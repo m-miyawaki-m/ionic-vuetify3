@@ -78,6 +78,8 @@ Android Studio → **AVD Manager** で以下を作成:
 | AVD 名 | `Pixel6_API33` |
 | RAM | 2048 MB 以上 |
 
+> **重要**: AVD 名は必ず `Pixel6_API33` にすること。`.vscode/tasks.json` の `emulator:start` タスクにこの名前がハードコードされているため、名前が違うとタスクからエミュレータを起動できない。
+
 作成後、エミュレータを**一度起動して正常動作を確認**する。
 
 ### Step 5: プロジェクトの Gradle キャッシュを育成
@@ -190,9 +192,11 @@ code --install-extension offline-package\vscode-extensions\Vue.volar-x.x.x.vsix
 □ android/local.properties の sdk.dir がオフライン機のパスになっている
 □ %USERPROFILE%\.gradle\gradle.properties に org.gradle.offline=true がある
 □ Android Studio → Gradle → Offline work にチェックが入っている
+□ AVD 名が Pixel6_API33 で作成されている（Step 4 参照）
 □ VSCode: Ctrl+Shift+P → Tasks: Run Task → emulator:start でエミュレータが起動する
 □ VSCode: Tasks: Run Task → android:build:debug で APK がビルドできる
 □ VSCode: Tasks: Run Task → android:livereload でエミュレータに APK がデプロイされる
+□ 実機（Xnavis）で livereload を使う場合: Windows Defender でポート 5173 の受信を許可する
 ```
 
 ---
